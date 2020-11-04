@@ -41,6 +41,24 @@ from test_scripts.test_class import Test
 test = Test()
 ```
 
+
+```python
+# __SOLUTION__
+# Webscraping
+import requests
+from bs4 import BeautifulSoup
+
+# Data organization
+import pandas as pd
+
+# Visualization
+import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size': 22})
+
+from test_scripts.test_class import Test
+test = Test()
+```
+
 ## Step 2
 > **We use the `requests` library to connect to the website we wish to scrape.**
 
@@ -53,6 +71,28 @@ response = requests.get(url)
 response
 ```
 
+
+
+
+    <Response [200]>
+
+
+
+
+```python
+# __SOLUTION__
+url = 'http://quotes.toscrape.com'
+response = requests.get(url)
+response
+```
+
+
+
+
+    <Response [200]>
+
+
+
 ✅**A `Response 200` means our request was sucessful!** ✅
 
 ❌Let's take a quick look at an *unsuccessful* response. ❌
@@ -62,6 +102,27 @@ response
 bad_url = 'http://quotes.toscrape.com/20'
 requests.get(bad_url)
 ```
+
+
+
+
+    <Response [404]>
+
+
+
+
+```python
+# __SOLUTION__
+bad_url = 'http://quotes.toscrape.com/20'
+requests.get(bad_url)
+```
+
+
+
+
+    <Response [404]>
+
+
 
 **A `Response 404` means that the url you are using in your request is not pointing to a valid webpage.**
 
@@ -76,6 +137,27 @@ html = response.text
 html[:50]
 ```
 
+
+
+
+    '<!DOCTYPE html>\n<html lang="en">\n<head>\n\t<meta cha'
+
+
+
+
+```python
+# __SOLUTION__
+html = response.text
+html[:50]
+```
+
+
+
+
+    '<!DOCTYPE html>\n<html lang="en">\n<head>\n\t<meta cha'
+
+
+
 ## Step 4
 > **We use `BeautifulSoup` to turn the html into something we can manipulate.**
 
@@ -84,6 +166,443 @@ html[:50]
 soup = BeautifulSoup(html, 'lxml')
 soup
 ```
+
+
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="utf-8"/>
+    <title>Quotes to Scrape</title>
+    <link href="/static/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/static/main.css" rel="stylesheet"/>
+    </head>
+    <body>
+    <div class="container">
+    <div class="row header-box">
+    <div class="col-md-8">
+    <h1>
+    <a href="/" style="text-decoration: none">Quotes to Scrape</a>
+    </h1>
+    </div>
+    <div class="col-md-4">
+    <p>
+    <a href="/login">Login</a>
+    </p>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-md-8">
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”</span>
+    <span>by <small class="author" itemprop="author">Albert Einstein</small>
+    <a href="/author/Albert-Einstein">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="change,deep-thoughts,thinking,world" itemprop="keywords"/>
+    <a class="tag" href="/tag/change/page/1/">change</a>
+    <a class="tag" href="/tag/deep-thoughts/page/1/">deep-thoughts</a>
+    <a class="tag" href="/tag/thinking/page/1/">thinking</a>
+    <a class="tag" href="/tag/world/page/1/">world</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“It is our choices, Harry, that show what we truly are, far more than our abilities.”</span>
+    <span>by <small class="author" itemprop="author">J.K. Rowling</small>
+    <a href="/author/J-K-Rowling">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="abilities,choices" itemprop="keywords"/>
+    <a class="tag" href="/tag/abilities/page/1/">abilities</a>
+    <a class="tag" href="/tag/choices/page/1/">choices</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”</span>
+    <span>by <small class="author" itemprop="author">Albert Einstein</small>
+    <a href="/author/Albert-Einstein">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="inspirational,life,live,miracle,miracles" itemprop="keywords"/>
+    <a class="tag" href="/tag/inspirational/page/1/">inspirational</a>
+    <a class="tag" href="/tag/life/page/1/">life</a>
+    <a class="tag" href="/tag/live/page/1/">live</a>
+    <a class="tag" href="/tag/miracle/page/1/">miracle</a>
+    <a class="tag" href="/tag/miracles/page/1/">miracles</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“The person, be it gentleman or lady, who has not pleasure in a good novel, must be intolerably stupid.”</span>
+    <span>by <small class="author" itemprop="author">Jane Austen</small>
+    <a href="/author/Jane-Austen">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="aliteracy,books,classic,humor" itemprop="keywords"/>
+    <a class="tag" href="/tag/aliteracy/page/1/">aliteracy</a>
+    <a class="tag" href="/tag/books/page/1/">books</a>
+    <a class="tag" href="/tag/classic/page/1/">classic</a>
+    <a class="tag" href="/tag/humor/page/1/">humor</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“Imperfection is beauty, madness is genius and it's better to be absolutely ridiculous than absolutely boring.”</span>
+    <span>by <small class="author" itemprop="author">Marilyn Monroe</small>
+    <a href="/author/Marilyn-Monroe">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="be-yourself,inspirational" itemprop="keywords"/>
+    <a class="tag" href="/tag/be-yourself/page/1/">be-yourself</a>
+    <a class="tag" href="/tag/inspirational/page/1/">inspirational</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“Try not to become a man of success. Rather become a man of value.”</span>
+    <span>by <small class="author" itemprop="author">Albert Einstein</small>
+    <a href="/author/Albert-Einstein">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="adulthood,success,value" itemprop="keywords"/>
+    <a class="tag" href="/tag/adulthood/page/1/">adulthood</a>
+    <a class="tag" href="/tag/success/page/1/">success</a>
+    <a class="tag" href="/tag/value/page/1/">value</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“It is better to be hated for what you are than to be loved for what you are not.”</span>
+    <span>by <small class="author" itemprop="author">André Gide</small>
+    <a href="/author/Andre-Gide">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="life,love" itemprop="keywords"/>
+    <a class="tag" href="/tag/life/page/1/">life</a>
+    <a class="tag" href="/tag/love/page/1/">love</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“I have not failed. I've just found 10,000 ways that won't work.”</span>
+    <span>by <small class="author" itemprop="author">Thomas A. Edison</small>
+    <a href="/author/Thomas-A-Edison">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="edison,failure,inspirational,paraphrased" itemprop="keywords"/>
+    <a class="tag" href="/tag/edison/page/1/">edison</a>
+    <a class="tag" href="/tag/failure/page/1/">failure</a>
+    <a class="tag" href="/tag/inspirational/page/1/">inspirational</a>
+    <a class="tag" href="/tag/paraphrased/page/1/">paraphrased</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“A woman is like a tea bag; you never know how strong it is until it's in hot water.”</span>
+    <span>by <small class="author" itemprop="author">Eleanor Roosevelt</small>
+    <a href="/author/Eleanor-Roosevelt">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="misattributed-eleanor-roosevelt" itemprop="keywords"/>
+    <a class="tag" href="/tag/misattributed-eleanor-roosevelt/page/1/">misattributed-eleanor-roosevelt</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“A day without sunshine is like, you know, night.”</span>
+    <span>by <small class="author" itemprop="author">Steve Martin</small>
+    <a href="/author/Steve-Martin">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="humor,obvious,simile" itemprop="keywords"/>
+    <a class="tag" href="/tag/humor/page/1/">humor</a>
+    <a class="tag" href="/tag/obvious/page/1/">obvious</a>
+    <a class="tag" href="/tag/simile/page/1/">simile</a>
+    </div>
+    </div>
+    <nav>
+    <ul class="pager">
+    <li class="next">
+    <a href="/page/2/">Next <span aria-hidden="true">→</span></a>
+    </li>
+    </ul>
+    </nav>
+    </div>
+    <div class="col-md-4 tags-box">
+    <h2>Top Ten tags</h2>
+    <span class="tag-item">
+    <a class="tag" href="/tag/love/" style="font-size: 28px">love</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/inspirational/" style="font-size: 26px">inspirational</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/life/" style="font-size: 26px">life</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/humor/" style="font-size: 24px">humor</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/books/" style="font-size: 22px">books</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/reading/" style="font-size: 14px">reading</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/friendship/" style="font-size: 10px">friendship</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/friends/" style="font-size: 8px">friends</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/truth/" style="font-size: 8px">truth</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/simile/" style="font-size: 6px">simile</a>
+    </span>
+    </div>
+    </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+    <p class="text-muted">
+                    Quotes by: <a href="https://www.goodreads.com/quotes">GoodReads.com</a>
+    </p>
+    <p class="copyright">
+                    Made with <span class="sh-red">❤</span> by <a href="https://scrapinghub.com">Scrapinghub</a>
+    </p>
+    </div>
+    </footer>
+    </body>
+    </html>
+
+
+
+
+```python
+# __SOLUTION__
+soup = BeautifulSoup(html, 'lxml')
+soup
+```
+
+
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="utf-8"/>
+    <title>Quotes to Scrape</title>
+    <link href="/static/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/static/main.css" rel="stylesheet"/>
+    </head>
+    <body>
+    <div class="container">
+    <div class="row header-box">
+    <div class="col-md-8">
+    <h1>
+    <a href="/" style="text-decoration: none">Quotes to Scrape</a>
+    </h1>
+    </div>
+    <div class="col-md-4">
+    <p>
+    <a href="/login">Login</a>
+    </p>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-md-8">
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”</span>
+    <span>by <small class="author" itemprop="author">Albert Einstein</small>
+    <a href="/author/Albert-Einstein">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="change,deep-thoughts,thinking,world" itemprop="keywords"/>
+    <a class="tag" href="/tag/change/page/1/">change</a>
+    <a class="tag" href="/tag/deep-thoughts/page/1/">deep-thoughts</a>
+    <a class="tag" href="/tag/thinking/page/1/">thinking</a>
+    <a class="tag" href="/tag/world/page/1/">world</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“It is our choices, Harry, that show what we truly are, far more than our abilities.”</span>
+    <span>by <small class="author" itemprop="author">J.K. Rowling</small>
+    <a href="/author/J-K-Rowling">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="abilities,choices" itemprop="keywords"/>
+    <a class="tag" href="/tag/abilities/page/1/">abilities</a>
+    <a class="tag" href="/tag/choices/page/1/">choices</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”</span>
+    <span>by <small class="author" itemprop="author">Albert Einstein</small>
+    <a href="/author/Albert-Einstein">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="inspirational,life,live,miracle,miracles" itemprop="keywords"/>
+    <a class="tag" href="/tag/inspirational/page/1/">inspirational</a>
+    <a class="tag" href="/tag/life/page/1/">life</a>
+    <a class="tag" href="/tag/live/page/1/">live</a>
+    <a class="tag" href="/tag/miracle/page/1/">miracle</a>
+    <a class="tag" href="/tag/miracles/page/1/">miracles</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“The person, be it gentleman or lady, who has not pleasure in a good novel, must be intolerably stupid.”</span>
+    <span>by <small class="author" itemprop="author">Jane Austen</small>
+    <a href="/author/Jane-Austen">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="aliteracy,books,classic,humor" itemprop="keywords"/>
+    <a class="tag" href="/tag/aliteracy/page/1/">aliteracy</a>
+    <a class="tag" href="/tag/books/page/1/">books</a>
+    <a class="tag" href="/tag/classic/page/1/">classic</a>
+    <a class="tag" href="/tag/humor/page/1/">humor</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“Imperfection is beauty, madness is genius and it's better to be absolutely ridiculous than absolutely boring.”</span>
+    <span>by <small class="author" itemprop="author">Marilyn Monroe</small>
+    <a href="/author/Marilyn-Monroe">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="be-yourself,inspirational" itemprop="keywords"/>
+    <a class="tag" href="/tag/be-yourself/page/1/">be-yourself</a>
+    <a class="tag" href="/tag/inspirational/page/1/">inspirational</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“Try not to become a man of success. Rather become a man of value.”</span>
+    <span>by <small class="author" itemprop="author">Albert Einstein</small>
+    <a href="/author/Albert-Einstein">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="adulthood,success,value" itemprop="keywords"/>
+    <a class="tag" href="/tag/adulthood/page/1/">adulthood</a>
+    <a class="tag" href="/tag/success/page/1/">success</a>
+    <a class="tag" href="/tag/value/page/1/">value</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“It is better to be hated for what you are than to be loved for what you are not.”</span>
+    <span>by <small class="author" itemprop="author">André Gide</small>
+    <a href="/author/Andre-Gide">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="life,love" itemprop="keywords"/>
+    <a class="tag" href="/tag/life/page/1/">life</a>
+    <a class="tag" href="/tag/love/page/1/">love</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“I have not failed. I've just found 10,000 ways that won't work.”</span>
+    <span>by <small class="author" itemprop="author">Thomas A. Edison</small>
+    <a href="/author/Thomas-A-Edison">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="edison,failure,inspirational,paraphrased" itemprop="keywords"/>
+    <a class="tag" href="/tag/edison/page/1/">edison</a>
+    <a class="tag" href="/tag/failure/page/1/">failure</a>
+    <a class="tag" href="/tag/inspirational/page/1/">inspirational</a>
+    <a class="tag" href="/tag/paraphrased/page/1/">paraphrased</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“A woman is like a tea bag; you never know how strong it is until it's in hot water.”</span>
+    <span>by <small class="author" itemprop="author">Eleanor Roosevelt</small>
+    <a href="/author/Eleanor-Roosevelt">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="misattributed-eleanor-roosevelt" itemprop="keywords"/>
+    <a class="tag" href="/tag/misattributed-eleanor-roosevelt/page/1/">misattributed-eleanor-roosevelt</a>
+    </div>
+    </div>
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <span class="text" itemprop="text">“A day without sunshine is like, you know, night.”</span>
+    <span>by <small class="author" itemprop="author">Steve Martin</small>
+    <a href="/author/Steve-Martin">(about)</a>
+    </span>
+    <div class="tags">
+                Tags:
+                <meta class="keywords" content="humor,obvious,simile" itemprop="keywords"/>
+    <a class="tag" href="/tag/humor/page/1/">humor</a>
+    <a class="tag" href="/tag/obvious/page/1/">obvious</a>
+    <a class="tag" href="/tag/simile/page/1/">simile</a>
+    </div>
+    </div>
+    <nav>
+    <ul class="pager">
+    <li class="next">
+    <a href="/page/2/">Next <span aria-hidden="true">→</span></a>
+    </li>
+    </ul>
+    </nav>
+    </div>
+    <div class="col-md-4 tags-box">
+    <h2>Top Ten tags</h2>
+    <span class="tag-item">
+    <a class="tag" href="/tag/love/" style="font-size: 28px">love</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/inspirational/" style="font-size: 26px">inspirational</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/life/" style="font-size: 26px">life</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/humor/" style="font-size: 24px">humor</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/books/" style="font-size: 22px">books</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/reading/" style="font-size: 14px">reading</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/friendship/" style="font-size: 10px">friendship</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/friends/" style="font-size: 8px">friends</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/truth/" style="font-size: 8px">truth</a>
+    </span>
+    <span class="tag-item">
+    <a class="tag" href="/tag/simile/" style="font-size: 6px">simile</a>
+    </span>
+    </div>
+    </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+    <p class="text-muted">
+                    Quotes by: <a href="https://www.goodreads.com/quotes">GoodReads.com</a>
+    </p>
+    <p class="copyright">
+                    Made with <span class="sh-red">❤</span> by <a href="https://scrapinghub.com">Scrapinghub</a>
+    </p>
+    </div>
+    </footer>
+    </body>
+    </html>
+
+
 
 <center><h1><b><i><u>Very Soupy</u></i></b></h1></center>
 
@@ -117,11 +636,38 @@ quote_divs = soup.find_all('div', {'class': 'quote'})
 len(quote_divs)
 ```
 
+
+
+
+    10
+
+
+
+
+```python
+# __SOLUTION__
+quote_divs = soup.find_all('div', {'class': 'quote'})
+len(quote_divs)
+```
+
+
+
+
+    10
+
+
+
 ## Step 6
 > **To figure out how to grab all the datapoints from a quote, we isolate a single quote, and work through the code for a single `div`.**
 
 
 ```python
+first_quote = quote_divs[0]
+```
+
+
+```python
+# __SOLUTION__
 first_quote = quote_divs[0]
 ```
 
@@ -134,6 +680,28 @@ text = text.text
 text
 ```
 
+
+
+
+    '“The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”'
+
+
+
+
+```python
+# __SOLUTION__
+text = first_quote.find('span', {'class':'text'})
+text = text.text
+text
+```
+
+
+
+
+    '“The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”'
+
+
+
 ### Next we grab the author
 
 
@@ -143,6 +711,28 @@ author_name = author.text
 author_name
 ```
 
+
+
+
+    'Albert Einstein'
+
+
+
+
+```python
+# __SOLUTION__
+author = first_quote.find('small', {'class': 'author'})
+author_name = author.text
+author_name
+```
+
+
+
+
+    'Albert Einstein'
+
+
+
 ### Let's also grab the link that points to the author's bio!
 
 
@@ -151,6 +741,28 @@ author_link = author.findNextSibling().attrs.get('href')
 author_link = url + author_link
 author_link
 ```
+
+
+
+
+    'http://quotes.toscrape.com/author/Albert-Einstein'
+
+
+
+
+```python
+# __SOLUTION__
+author_link = author.findNextSibling().attrs.get('href')
+author_link = url + author_link
+author_link
+```
+
+
+
+
+    'http://quotes.toscrape.com/author/Albert-Einstein'
+
+
 
 ### And finally, let's grab all of the tags for the quote
 
@@ -166,6 +778,33 @@ for tag in tag_links:
 tags
 ```
 
+
+
+
+    ['change', 'deep-thoughts', 'thinking', 'world']
+
+
+
+
+```python
+# __SOLUTION__
+tag_container = first_quote.find('div', {'class': 'tags'})
+tag_links = tag_container.find_all('a')
+
+tags = []
+for tag in tag_links:
+    tags.append(tag.text)
+    
+tags
+```
+
+
+
+
+    ['change', 'deep-thoughts', 'thinking', 'world']
+
+
+
 ### Our data:
 
 
@@ -175,6 +814,27 @@ print('author name: ', author_name)
 print('author link: ', author_link)
 print('tags: ', tags)
 ```
+
+    text: “The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”
+    author name:  Albert Einstein
+    author link:  http://quotes.toscrape.com/author/Albert-Einstein
+    tags:  ['change', 'deep-thoughts', 'thinking', 'world']
+
+
+
+```python
+# __SOLUTION__
+print('text:', text)
+print('author name: ', author_name)
+print('author link: ', author_link)
+print('tags: ', tags)
+```
+
+    text: “The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”
+    author name:  Albert Einstein
+    author link:  http://quotes.toscrape.com/author/Albert-Einstein
+    tags:  ['change', 'deep-thoughts', 'thinking', 'world']
+
 
 # Step 7
 > We create a function to make our code reusable.
@@ -200,8 +860,33 @@ Now that we know how to collect this data from a quote div, we can compile the c
 
 ```python
 # Your code here
+```
+
+
+```python
+# __SOLUTION__
+# Your code here
 def quote_data(quote_div):
-    pass
+    text = quote_div.find('span', {'class':'text'})
+    text = text.text
+
+    author = quote_div.find('small', {'class': 'author'})
+    author_name = author.text
+    author_link = author.findNextSibling().attrs.get('href')
+    author_link = url + author_link
+    tag_container = quote_div.find('div', {'class': 'tags'})
+    tag_links = tag_container.find_all('a')
+
+    tags = []
+    for tag in tag_links:
+        tags.append(tag.text)
+        
+    data = {'author': author_name,
+           'text' : text,
+           'author_link': author_link,
+           'tags': tags}
+    
+    return data
 ```
 
 ### Let's test our fuction.
@@ -212,10 +897,34 @@ def quote_data(quote_div):
 test.run_test(quote_data(quote_divs[7]), 'quote_scraper')
 ```
 
+
+✅ **Hey, you did it.  Good job.**
+
+
+
+```python
+# __SOLUTION__
+# Run this cell unchanged
+test.run_test(quote_data(quote_divs[7]), 'quote_scraper')
+```
+
 Now we can collect the data from every quote on the first page with a simple [```for loop```](https://www.w3schools.com/python/python_for_loops.asp)!
 
 
 ```python
+page_one_data = []
+for div in quote_divs:
+    # Apply our function to each quote
+    data_from_div = quote_data(div)
+    page_one_data.append(data_from_div)
+    
+print(len(page_one_data), 'quotes scraped!')
+page_one_data[:2]
+```
+
+
+```python
+# __SOLUTION__
 page_one_data = []
 for div in quote_divs:
     # Apply our function to each quote
@@ -245,10 +954,32 @@ def scrape_page(quote_divs):
     return data
 ```
 
+
+```python
+# __SOLUTION__
+def scrape_page(quote_divs):
+    data = []
+    for div in quote_divs:
+        div_data = quote_data(div)
+        data.append(div_data)
+        
+    return data
+```
+
 **Step 2:** We grab the code we used at the very beginning to collect the html and the list of divs from a web page.
 
 
 ```python
+base_url = 'http://quotes.toscrape.com'
+response = requests.get(url)
+html = response.text
+soup = BeautifulSoup(html, 'lxml')
+quote_divs = soup.find_all('div', {'class': 'quote'})
+```
+
+
+```python
+# __SOLUTION__
 base_url = 'http://quotes.toscrape.com'
 response = requests.get(url)
 html = response.text
@@ -265,6 +996,18 @@ data = scrape_page(quote_divs)
 
 
 ```python
+# __SOLUTION__
+data = scrape_page(quote_divs)
+```
+
+
+```python
+data[:2]
+```
+
+
+```python
+# __SOLUTION__
 data[:2]
 ```
 
@@ -279,12 +1022,25 @@ data[:2]
 pager = soup.find('ul', {'class': 'pager'})
 ```
 
+
+```python
+# __SOLUTION__
+pager = soup.find('ul', {'class': 'pager'})
+```
+
 If there is no pager element on the webpage, pager will be set to `None`.
 
 2. We use an if check to make sure a pager exists:
 
 
 ```python
+if pager:
+    next_page = pager.find('li', {'class': 'next'})
+```
+
+
+```python
+# __SOLUTION__
 if pager:
     next_page = pager.find('li', {'class': 'next'})
 ```
@@ -301,6 +1057,15 @@ if next_page:
                          .get('href')
 ```
 
+
+```python
+# __SOLUTION__
+if next_page:
+    next_page = next_page.findChild('a')\
+                         .attrs\
+                         .get('href')
+```
+
 With most webscraping tools, "clicking a button" means collecting the link inside the button and making a new request.
 
 If a link is pointing to a page on the same website, the links are usually just the forward slashes that need to be added to the base website url. This is called a `relative` link.
@@ -309,6 +1074,13 @@ If a link is pointing to a page on the same website, the links are usually just 
 
 
 ```python
+next_page = url + next_page
+next_page
+```
+
+
+```python
+# __SOLUTION__
 next_page = url + next_page
 next_page
 ```
@@ -368,6 +1140,36 @@ def scrape_quotes(url):
     return data
 ```
 
+
+```python
+# __SOLUTION__
+def scrape_quotes(url):
+    base_url = 'http://quotes.toscrape.com'
+    response = requests.get(url)
+    html = response.text
+    soup = BeautifulSoup(html, 'lxml')
+    quote_divs = soup.find_all('div', {'class': 'quote'})
+    data = scrape_page(quote_divs)
+    
+    pager = soup.find('ul', {'class': 'pager'})
+    if pager:
+        next_page = pager.find('li', {'class': 'next'})
+        
+        if next_page:
+            next_page =  next_page.findChild('a')\
+                                  .attrs\
+                                  .get('href')
+            
+            next_page = base_url + next_page
+            print('Scraping', next_page)
+            ## This is where the recursion happens
+            data += scrape_quotes(next_page)
+        
+    
+
+    return data
+```
+
 Now we can set a variable called `data` that is the output of our recursive function!
 
 > A print statement has been added to output what page is being scraped
@@ -378,10 +1180,36 @@ data = scrape_quotes(url)
 print(len(data), 'Quotes scraped!')
 ```
 
+
+```python
+# __SOLUTION__
+data = scrape_quotes(url)
+print(len(data), 'Quotes scraped!')
+```
+
 Now we can visualize and explore our data!
 
 
 ```python
+def count_tags(quote):
+    return len(quote['tags'])
+
+def tag_lengths(data):
+    lengths = []
+    for quote in data:
+        lengths.append(count_tags(quote))
+        
+    return lengths
+        
+lengths = tag_lengths(data)
+plt.figure(figsize=(10,6))   
+plt.hist(lengths, bins=9)
+plt.title('Number of Tags');
+```
+
+
+```python
+# __SOLUTION__
 def count_tags(quote):
     return len(quote['tags'])
 
@@ -408,6 +1236,19 @@ df.head()
 
 
 ```python
+# __SOLUTION__
+df = pd.DataFrame(data)
+df.head()
+```
+
+
+```python
+df.to_csv('quotes_data.csv')
+```
+
+
+```python
+# __SOLUTION__
 df.to_csv('quotes_data.csv')
 ```
 
